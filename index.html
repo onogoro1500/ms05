@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ja">
+<!---　　　　 　 _,,,....,,,___
+　　　　　 　,.:'"ﾄ ､:::::::｀ンヽ.
+　　　　　　/:::i　　ヽr-r'´　　/ヽ.
+　 　 　 　/:::_く＞--'‐ '‐-＜」::';
+　　　 　,/::'´ _,,.. --‐─- ､.,_ ｀` ､!           
+　　 ,.:'´,..ｧ''"´::::;::;::;!::ヽ;｀. ヽ.     mysterious square
+　,:'　,.:'´::/､_;';ｨ:`:!:;!:`ﾒ-!-ｨ::';:'; i　┏━━┓┏━┓┏━┓┏┓┏━┓┏┓
+　/Y:::::::!::/_」　､/|:/!ｧ;'‐‐､ﾊ::::!::::i  ┃┃┃┃┃━┫┃┃┃┃┃┃┃┃┃┃
+　'､」:::::!:/7i ﾉi 　ﾚ'　! ﾉ!〉ﾚﾍ!::i::::!   ┃┃┃┃┣━┃┃┃┃┃┃┃┃┃┃┃
+　　 Vヽ;ﾊ ' ゝ-'　,　 　　`"´ .ﾊ:::!:::';:!  ┗┻┻┛┗━┛┗━┛┗┛┗━┛┗┛
+　　　　 !:::!"　　　　　　 　 ",':::!V:::!::!
+　　　　 !:::!＞.､,　　` 　　 ,.ｲ::::::!::ﾊ:::!
+　　　　 '､/ヽ:: ン´）r‐ ´ i::::;ﾊ:::/ヽ  ﾚ'^
+　　　　　　 'ｧ/´`く_i !_／´!／;'´￣｀ヽ.
+　　　　　　 ,/ 　 /ｿハ:::｀:::/ 　　　　',
+　　　　　 ,/!､___r/i7::',レ::ヽ　 　　　ﾉ
+　　　　　,'ヽ､____ｿi;':i　 ﾊ::!､_,.､-‐'ヾ!
+　 　　　,i　 　　　 !::r!　 !:! 　',　　  !
+　　　 　!､ 　　　,ｲ!::::/　 レ' 　 ';　　  ;.       welcome to Mizuhollow!
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Onogoro 弾幕シューティングなどを公開中。">
+<meta property="og:title" content="Onogoro">
+<meta property="og:description" content="Onogoro 弾幕シューティングなどを公開中。">
+<meta property="og:image" content="https:/image/ms0101-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://o-ngr.puter.site/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Onogoro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Onogoro">
+<meta name="twitter:description" content="Onogoro 弾幕シューティングなどを公開中。">
+<meta name="twitter:image" content="/image/ms0101-image.png">
+<title>Onogoro | TOP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet">
+<script>document.addEventListener("DOMContentLoaded",()=>{document.addEventListener("contextmenu",e=>e.preventDefault());});</script>
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --red:      #C0392B;
+  --red-h:    #A93226;
+  --red-dim:  #922B21;
+  --red-mute: rgba(192,57,43,0.12);
+
+  --bg:      #0C0A0A;
+  --bg2:     #141010;
+  --bg3:     #1C1818;
+  --surface: #201C1C;
+  --sur2:    #2A2424;
+
+  --t1: #F0EAEA;
+  --t2: #B09898;
+  --t3: #6A5C5C;
+
+  --bd:  rgba(255,255,255,0.10);
+  --bd2: rgba(255,255,255,0.18);
+
+  --tr: .15s ease;
+  --shadow: 0 2px 16px rgba(0,0,0,.5);
+}
+body.light {
+  --bg:      #F4F1F1;
+  --bg2:     #EDE9E9;
+  --bg3:     #E5E0E0;
+  --surface: #FFFFFF;
+  --sur2:    #F8F4F4;
+  --t1: #180F0F;
+  --t2: #5C4A4A;
+  --t3: #9A8A8A;
+  --bd:  rgba(0,0,0,0.10);
+  --bd2: rgba(0,0,0,0.20);
+  --shadow: 0 2px 16px rgba(0,0,0,.12);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESET & BASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family:'Noto Sans JP',sans-serif;
+  background:var(--bg);
+  color:var(--t1);
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+  min-height:100vh;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hdr {
+  position:fixed;
+  top:0; left:0; right:0;
+  height:64px;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  padding:0 2rem;
+  background:var(--bg);
+  border-bottom:2px solid var(--bd2);
+}
+
+.logo {
+  font-family:'Shippori Mincho',serif;
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:.22em;
+  cursor:pointer;
+  user-select:none;
+  white-space:nowrap;
+  transition:opacity var(--tr);
+  flex-shrink:0;
+}
+.logo:hover { opacity:.7; }
+
+.search-wrap {
+  flex:1;
+  max-width:520px;
+  position:relative;
+}
+.search-icon {
+  position:absolute;
+  left:.9rem;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--t3);
+  font-size:.85rem;
+  pointer-events:none;
+}
+.search-input {
+  width:100%;
+  padding:.65rem 1rem .65rem 2.6rem;
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  color:var(--t1);
+  font-size:.95rem;
+  font-family:inherit;
+  font-weight:500;
+  transition:all var(--tr);
+}
+.search-input:focus { outline:none; border-color:var(--red); background:var(--sur2); }
+.search-input::placeholder { color:var(--t3); font-weight:400; }
+
+.hdr-actions { display:flex; align-items:center; gap:.6rem; margin-left:auto; flex-shrink:0; }
+
+.hbtn {
+  height:40px;
+  padding:0 1rem;
+  display:flex; align-items:center; gap:.45rem;
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  color:var(--t2);
+  font-size:.85rem;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:all var(--tr);
+  white-space:nowrap;
+  letter-spacing:.04em;
+  touch-action:manipulation;
+}
+.hbtn:hover { background:var(--sur2); color:var(--t1); border-color:var(--t3); }
+.hbtn:active { transform:scale(.97); }
+.hbtn.icon-only { width:40px; padding:0; justify-content:center; }
+
+/* favPanelBtn は右パネルが隠れる幅(モバイル/タブレット)でのみ表示。
+   PCでは常時表示の rpanel があるため不要。 */
+#favPanelBtn { display:none; }
+@media(max-width:1100px) { #favPanelBtn { display:flex; } }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT SHELL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.shell {
+  display:grid;
+  grid-template-columns:220px 1fr 280px;
+  gap:0;
+  padding-top:64px;
+  min-height:100vh;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LEFT SIDEBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sidebar {
+  position:sticky;
+  top:64px;
+  height:calc(100vh - 64px);
+  overflow-y:auto;
+  border-right:2px solid var(--bd2);
+  background:var(--bg2);
+  padding:1.5rem 0;
+  display:flex;
+  flex-direction:column;
+  gap:.25rem;
+}
+
+.sidebar-label {
+  font-size:.7rem;
+  font-weight:700;
+  color:var(--t3);
+  letter-spacing:.2em;
+  padding:.5rem 1.4rem .3rem;
+  text-transform:uppercase;
+}
+
+.nav-btn {
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  padding:.75rem 1.4rem;
+  background:transparent;
+  border:none;
+  color:var(--t2);
+  font-size:.95rem;
+  font-weight:500;
+  font-family:inherit;
+  cursor:pointer;
+  transition:all var(--tr);
+  text-align:left;
+  border-left:3px solid transparent;
+  touch-action:manipulation;
+}
+.nav-btn:hover { background:var(--surface); color:var(--t1); }
+.nav-btn.active {
+  background:var(--red-mute);
+  color:var(--red);
+  border-left-color:var(--red);
+  font-weight:700;
+}
+.nav-count {
+  margin-left:auto;
+  background:var(--sur2);
+  color:var(--t3);
+  font-size:.72rem;
+  font-weight:700;
+  padding:.15rem .5rem;
+  border-radius:20px;
+  min-width:24px;
+  text-align:center;
+}
+.nav-btn.active .nav-count { background:var(--red); color:#fff; }
+
+.sidebar-sep { height:1px; background:var(--bd2); margin:.75rem 1.4rem; }
+
+/* Sort */
+.sort-wrap { padding:.5rem 1.4rem; }
+.sort-lbl { font-size:.7rem; font-weight:700; color:var(--t3); letter-spacing:.15em; margin-bottom:.4rem; }
+.sort-sel {
+  width:100%;
+  padding:.55rem .8rem;
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  color:var(--t1);
+  font-size:.85rem;
+  font-weight:500;
+  font-family:inherit;
+  cursor:pointer;
+}
+.sort-sel:focus { outline:none; border-color:var(--red); }
+
+/* CTA — サイドバー最上部に配置し、最も視線が集まる位置で訴求する */
+.cta-wrap { padding:0 1.4rem 1.2rem; }
+.cta-link {
+  display:block;
+  position:relative;
+  padding:1rem 1.1rem;
+  background:linear-gradient(155deg, var(--red) 0%, var(--red-h) 100%);
+  color:#fff;
+  text-decoration:none;
+  font-family:'Shippori Mincho',serif;
+  font-size:1rem;
+  font-weight:700;
+  text-align:center;
+  border-radius:8px;
+  letter-spacing:.1em;
+  line-height:1.5;
+  box-shadow:0 0 0 0 rgba(192,57,43,.45);
+  animation:cta-pulse 2.6s ease-in-out infinite;
+  transition:transform var(--tr), box-shadow var(--tr);
+  touch-action:manipulation;
+}
+.cta-link:hover { transform:translateY(-1px); box-shadow:0 4px 18px rgba(192,57,43,.4); animation-play-state:paused; }
+.cta-link:active { transform:translateY(0) scale(.98); }
+.cta-tag {
+  display:inline-block;
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  background:rgba(255,255,255,.22);
+  padding:.15rem .5rem;
+  border-radius:20px;
+  margin-bottom:.5rem;
+}
+.cta-sub { font-size:.7rem; font-weight:500; font-family:'Noto Sans JP',sans-serif; opacity:.85; display:block; margin-top:.25rem; letter-spacing:.04em; }
+@keyframes cta-pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(192,57,43,.4); }
+  50%     { box-shadow:0 0 0 8px rgba(192,57,43,0); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .cta-link { animation:none; }
+}
+
+/* モバイル用CTA（メインカラム上部）は通常非表示。700px以下でのみ表示する。 */
+.mobile-cta { display:none; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAIN CONTENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.main {
+  padding:2rem 2rem 4rem;
+  min-width:0;
+}
+
+.main-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:1.5rem;
+}
+.main-title {
+  font-family:'Shippori Mincho',serif;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--t1);
+  letter-spacing:.06em;
+}
+.result-count {
+  font-size:.85rem;
+  color:var(--t3);
+  font-weight:500;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:1rem;
+}
+
+.card {
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:8px;
+  padding:1.4rem 1.5rem;
+  cursor:pointer;
+  transition:all var(--tr);
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+  position:relative;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+.card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:3px;
+  background:var(--red);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .2s ease;
+}
+.card:hover { background:var(--sur2); border-color:var(--t3); transform:translateY(-2px); box-shadow:var(--shadow); }
+.card:hover::before { transform:scaleX(1); }
+.card:active { transform:translateY(0); }
+
+.card-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:.75rem;
+}
+.card-title {
+  font-family:'Shippori Mincho',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--t1);
+  letter-spacing:.04em;
+  line-height:1.4;
+  pointer-events:none;
+  flex:1;
+}
+.card-cat {
+  font-size:.7rem;
+  font-weight:700;
+  color:var(--t3);
+  border:1.5px solid var(--bd2);
+  border-radius:4px;
+  padding:.15rem .55rem;
+  white-space:nowrap;
+  pointer-events:none;
+  flex-shrink:0;
+  align-self:flex-start;
+  letter-spacing:.06em;
+}
+.card-desc {
+  font-size:.88rem;
+  color:var(--t2);
+  line-height:1.65;
+  font-weight:400;
+  pointer-events:none;
+}
+.card-foot {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:.3rem;
+}
+.card-url {
+  font-size:.75rem;
+  color:var(--t3);
+  font-weight:500;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  max-width:70%;
+  pointer-events:none;
+}
+.fav-btn {
+  width:34px; height:34px;
+  background:transparent;
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  color:var(--t3);
+  font-size:1rem;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all var(--tr);
+  flex-shrink:0;
+  position:relative;
+  z-index:2;
+  touch-action:manipulation;
+}
+.fav-btn:hover { border-color:var(--red); color:var(--red); }
+.fav-btn:active { transform:scale(.9); }
+.fav-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
+
+/* Empty */
+.empty {
+  grid-column:1/-1;
+  text-align:center;
+  padding:5rem 1rem;
+  color:var(--t3);
+  font-size:.95rem;
+  line-height:2.2;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RIGHT PANEL (desktop)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.rpanel {
+  position:sticky;
+  top:64px;
+  height:calc(100vh - 64px);
+  overflow-y:auto;
+  border-left:2px solid var(--bd2);
+  background:var(--bg2);
+  padding:1.5rem 1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+.rpanel-title {
+  font-family:'Shippori Mincho',serif;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:.12em;
+  padding-bottom:.8rem;
+  border-bottom:2px solid var(--bd2);
+}
+
+.rp-stat {
+  display:flex;
+  gap:.6rem;
+}
+.rp-stat-item {
+  flex:1;
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  padding:.9rem .6rem;
+  text-align:center;
+}
+.rp-stat-num {
+  display:block;
+  font-family:'Shippori Mincho',serif;
+  font-size:1.8rem;
+  font-weight:700;
+  color:var(--red);
+  line-height:1;
+  margin-bottom:.3rem;
+}
+.rp-stat-lbl { font-size:.7rem; font-weight:700; color:var(--t3); letter-spacing:.1em; }
+
+.fav-list { display:flex; flex-direction:column; gap:.5rem; flex:1; }
+.fav-empty {
+  color:var(--t3);
+  font-size:.85rem;
+  line-height:1.9;
+  text-align:center;
+  padding:1.5rem .5rem;
+}
+
+.fav-item {
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.75rem .9rem;
+  background:var(--surface);
+  border:2px solid var(--bd2);
+  border-radius:6px;
+  transition:all var(--tr);
+}
+.fav-item:hover { border-color:var(--t3); }
+.fav-link {
+  flex:1;
+  font-size:.88rem;
+  font-weight:700;
+  color:var(--t1);
+  text-decoration:none;
+  font-family:'Shippori Mincho',serif;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  transition:color var(--tr);
+}
+.fav-link:hover { color:var(--red); }
+.fav-rm {
+  width:28px; height:28px;
+  background:transparent;
+  border:1.5px solid var(--bd2);
+  border-radius:4px;
+  color:var(--t3);
+  font-size:1rem;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all var(--tr);
+  flex-shrink:0;
+  line-height:1;
+  touch-action:manipulation;
+}
+.fav-rm:hover { border-color:var(--red); color:var(--red); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE PANEL (overlay)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:300;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.overlay.show {
+  opacity:1;
+  pointer-events:auto;
+}
+
+.mpanel {
+  position:fixed;
+  top:0; right:-100%;
+  width:min(340px,100vw);
+  height:100vh;
+  height:100dvh;
+  background:var(--bg2);
+  border-left:2px solid var(--bd2);
+  z-index:400;
+  transition:right .25s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+  padding:1.5rem 1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+.mpanel.open { right:0; }
+.mpanel-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.mpanel-title {
+  font-family:'Shippori Mincho',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:.1em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.footer {
+  border-top:2px solid var(--bd2);
+  background:var(--bg2);
+  padding:3rem 2rem 2.5rem;
+}
+.footer-inner {
+  max-width:1080px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2rem;
+}
+.footer-logo {
+  font-family:'Shippori Mincho',serif;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:.25em;
+  display:block;
+  margin-bottom:.8rem;
+  opacity:.7;
+}
+.ft { font-size:.85rem; color:var(--t2); line-height:1.9; font-weight:400; }
+.ft a { color:var(--red); text-decoration:none; }
+.ft a:hover { text-decoration:underline; }
+.ft-title { font-size:.75rem; font-weight:700; color:var(--t3); letter-spacing:.2em; margin-bottom:.6rem; text-transform:uppercase; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media(max-width:1100px) {
+  .shell { grid-template-columns:200px 1fr; }
+  .rpanel { display:none; }
+  .overlay { display:block; }
+}
+@media(max-width:700px) {
+  .hdr { padding:0 1rem; gap:1rem; height:56px; }
+  .shell { grid-template-columns:1fr; padding-top:56px; }
+  .sidebar { display:none; }
+  .main { padding:1.2rem 1rem 3rem; }
+  .grid { grid-template-columns:1fr; }
+  .footer { padding:2rem 1rem 2rem; }
+  .mobile-cta { display:block; padding:0 0 1.2rem; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:2px; }
+
+/* Mobile bottom nav (tabs) */
+.mob-tabs {
+  display:none;
+  position:fixed;
+  bottom:0; left:0; right:0;
+  background:var(--bg2);
+  border-top:2px solid var(--bd2);
+  z-index:150;
+  padding:.5rem;
+  gap:.4rem;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.mob-tab {
+  flex:1;
+  min-width:70px;
+  padding:.5rem .3rem;
+  background:transparent;
+  border:none;
+  color:var(--t3);
+  font-size:.8rem;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  border-radius:6px;
+  transition:all var(--tr);
+  text-align:center;
+  touch-action:manipulation;
+}
+.mob-tab.active { background:var(--red-mute); color:var(--red); }
+
+@media(max-width:700px) {
+  .mob-tabs { display:flex; }
+  body { padding-bottom:60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ OVERLAY (mobile) ═══ -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ═══ HEADER ═══ -->
+<header class="hdr">
+  <div class="logo" id="logoBtn">O-ngr</div>
+  <div class="search-wrap">
+    <span class="search-icon">&#x2315;</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="検索... ( / でフォーカス)" autocomplete="off">
+  </div>
+  <div class="hdr-actions">
+    <button class="hbtn icon-only" id="themeBtn" title="テーマ切替">&#x25D0;</button>
+    <button class="hbtn" id="favPanelBtn" title="お気に入り">&#x2605; お気に入り</button>
+  </div>
+</header>
+
+<!-- ═══ SHELL ═══ -->
+<div class="shell">
+
+  <!-- LEFT SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="cta-wrap">
+      <a class="cta-link" href="/play/STG.html" target="_blank">
+        <span class="cta-tag">NEW</span><br>
+        弾幕STG 最新作
+        <span class="cta-sub">Click to Play</span>
+      </a>
+    </div>
+
+    <div class="sidebar-sep"></div>
+
+    <span class="sidebar-label">カテゴリ</span>
+    <button class="nav-btn active" data-tab="all">
+      すべて <span class="nav-count" data-count="all">0</span>
+    </button>
+    <button class="nav-btn" data-tab="tools">
+      ツール <span class="nav-count" data-count="tools">0</span>
+    </button>
+    <button class="nav-btn" data-tab="extra">
+      その他 <span class="nav-count" data-count="extra">0</span>
+    </button>
+    <button class="nav-btn" data-tab="design">
+      デザイン <span class="nav-count" data-count="design">0</span>
+    </button>
+
+    <div class="sidebar-sep"></div>
+
+    <div class="sort-wrap">
+      <div class="sort-lbl">並び替え</div>
+      <select class="sort-sel" id="sortSel">
+        <option value="default">デフォルト順</option>
+        <option value="name">名前順</option>
+        <option value="recent">新着順</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="cta-wrap mobile-cta">
+      <a class="cta-link" href="/play/STGm.html" target="_blank">
+        <span class="cta-tag">NEW</span><br>
+        弾幕STG 最新作
+        <span class="cta-sub">スマホ用/Click to Play</span>
+      </a>
+    </div>
+    <div class="main-head">
+      <h1 class="main-title" id="mainTitle">すべて</h1>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <!-- RIGHT PANEL (desktop) -->
+  <aside class="rpanel" id="rpanel">
+    <div class="rpanel-title">&#x2605; お気に入り</div>
+    <div class="rp-stat" id="rpStat">
+      <div class="rp-stat-item">
+        <span class="rp-stat-num" id="rpCount">0</span>
+        <span class="rp-stat-lbl">登録数</span>
+      </div>
+      <div class="rp-stat-item">
+        <span class="rp-stat-num" id="rpTotal">0</span>
+        <span class="rp-stat-lbl">総リンク数</span>
+      </div>
+    </div>
+    <div class="fav-list" id="rpFavList"></div>
+  </aside>
+</div>
+
+<!-- MOBILE FAV PANEL -->
+<aside class="mpanel" id="mpanel">
+  <div class="mpanel-head">
+    <span class="mpanel-title">&#x2605; お気に入り</span>
+    <button class="hbtn icon-only" id="mpCloseBtn">&#x00D7;</button>
+  </div>
+  <div class="rp-stat" id="mpStat">
+    <div class="rp-stat-item">
+      <span class="rp-stat-num" id="mpCount">0</span>
+      <span class="rp-stat-lbl">登録数</span>
+    </div>
+  </div>
+  <div class="fav-list" id="mpFavList"></div>
+</aside>
+
+<!-- MOBILE BOTTOM TABS -->
+<div class="mob-tabs" id="mobTabs">
+  <button class="mob-tab active" data-tab="all">すべて</button>
+  <button class="mob-tab" data-tab="tools">ツール</button>
+  <button class="mob-tab" data-tab="extra">その他</button>
+  <button class="mob-tab" data-tab="design">デザイン</button>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <span class="footer-logo">O-ngr</span>
+      <img src="https://counter.256server.com/@:ms05?theme=rule34" alt="アクセスカウンター" width="180" height="54" style="display:block;margin-bottom:.8rem">
+      <p class="ft">カウンターを使わせていただいている <a href="https://256server.com" target="_blank">256さん</a>ありがとうございます</p>
+    </div>
+    <div>
+      <p class="ft-title">概要</p>
+      <p class="ft">弾幕シューティングゲームなどを公開しているサイトです。</p>
+    </div>
+    <div>
+      <p class="ft-title">ショートカット</p>
+      <p class="ft">
+        / — 検索フォーカス<br>
+        Esc — パネルを閉じる
+      </p>
+    </div>
+    <div>
+      <p class="ft-title">情報</p>
+      <p class="ft">
+        <a href="/info/privacypolicy.html">プライバシーポリシー</a><br>
+        <a href="/info/termsofuse.html">利用規約</a>
+      </p>
+    </div>
+    <div>
+      <p class="ft-title">Copyright</p>
+      <p class="ft">
+        本サービスは無料で提供され、配布プログラムはクリエイティブ・コモンズ 表示–非営利–継承 4.0 国際ライセンスに従って利用できます。<br><br>
+        &copy; 2025 o-ngr — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   LINK DATA
+   フィールド：
+     id       : 連番(重複不可)
+     title    : 表示名
+     desc     : 説明文
+     url      : リンク先URL
+     category : 'tools' | 'extra' | 'design' | 'game'
+   ═══════════════════════════════════════════════════ */
+const LINKS = [
+  { id:1, title:'Latest News',         desc:'最新情報を確認できます',         url:'/page/news.html',        category:'extra' },
+  { id:2, title:'Game List',           desc:'公開中のゲーム一覧',             url:'/page/gamelist.html',    category:'tools' },
+  { id:3, title:'Tool List',           desc:'公開中のツール一覧',             url:'/page/toollist.html',    category:'tools' },
+  { id:4, title:'Article List',        desc:'公開中の記事一覧',               url:'/page/articlelist.html', category:'tools' },
+  { id:5, title:'Notepad app',         desc:'高機能なメモ帳',                 url:'/tools/notepad.html',    category:'tools' },
+  { id:6, title:'Source code viewer',  desc:'ソースコードを確認',             url:'/tools/sauceview.html',  category:'tools' },
+  { id:7, title:'Proxy tool',          desc:'プロキシ通信が可能',             url:'/tools/proxy.html',      category:'tools' },
+  { id:8, title:'Link collection',     desc:'ショートカット一覧 (外部)',       url:'https://a-b-c.3do1.jp/', category:'tools' },
+  { id:9, title:'Link collection 2',   desc:'ショートカット一覧',             url:'/page/links.html',       category:'tools' },
+];
+
+/* カテゴリの表示名マップ */
+const CAT_LABELS = {
+  all:'すべて', tools:'ツール', extra:'その他', design:'デザイン', game:'ゲーム'
+};
+
+/* ===STATE=== */
+const state = {
+  favorites: JSON.parse(localStorage.getItem('o-ngr-favs') || '[]'),
+  tab: 'all',
+  query: '',
+  sort: 'default'
+};
+
+/* ===HELPERS=== */
+function getFiltered() {
+  let f = LINKS;
+  if (state.tab !== 'all') f = f.filter(l => l.category === state.tab);
+  if (state.query) {
+    const q = state.query.toLowerCase();
+    f = f.filter(l => l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q));
+  }
+  if (state.sort === 'name')   f = [...f].sort((a,b) => a.title.localeCompare(b.title,'ja'));
+  if (state.sort === 'recent') f = [...f].sort((a,b) => b.id - a.id);
+  return f;
+}
+
+function countByTab(tab) {
+  return tab === 'all' ? LINKS.length : LINKS.filter(l => l.category === tab).length;
+}
+
+function dispUrl(url) {
+  try { return new URL(url).hostname || url; } catch { return url; }
+}
+
+/* ===RENDER GRID=== */
+function renderGrid() {
+  const f = getFiltered();
+  const grid = document.getElementById('grid');
+  document.getElementById('mainTitle').textContent = CAT_LABELS[state.tab] || state.tab;
+  document.getElementById('resultCount').textContent = `${f.length} 件`;
+
+  if (!f.length) {
+    grid.innerHTML = `<div class="empty">リンクが見つかりません</div>`;
+    return;
+  }
+  grid.innerHTML = f.map(l => {
+    const fav = state.favorites.includes(l.id);
+    return `<div class="card" data-url="${l.url}" data-id="${l.id}">
+      <div class="card-top">
+        <h3 class="card-title">${l.title}</h3>
+        <span class="card-cat">${CAT_LABELS[l.category] || l.category}</span>
+      </div>
+      <p class="card-desc">${l.desc}</p>
+      <div class="card-foot">
+        <span class="card-url">${dispUrl(l.url)}</span>
+        <button class="fav-btn ${fav?'active':''}" data-id="${l.id}" aria-label="お気に入り">&#x2605;</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ===RENDER FAV PANEL=== */
+function favItemHTML(l) {
+  return `<div class="fav-item">
+    <a href="${l.url}" class="fav-link" target="_blank" rel="noopener">${l.title}</a>
+    <button class="fav-rm" data-remove-id="${l.id}" aria-label="削除">&#x00D7;</button>
+  </div>`;
+}
+
+function renderFavPanels() {
+  const favs = LINKS.filter(l => state.favorites.includes(l.id));
+  const total = LINKS.length;
+  const count = favs.length;
+  const html = favs.length
+    ? favs.map(favItemHTML).join('')
+    : `<p class="fav-empty">&#x2605; マークをクリックして<br>お気に入りを追加できます</p>`;
+
+  // Desktop
+  document.getElementById('rpCount').textContent = count;
+  document.getElementById('rpTotal').textContent = total;
+  document.getElementById('rpFavList').innerHTML = html;
+  // Mobile
+  document.getElementById('mpCount').textContent = count;
+  document.getElementById('mpFavList').innerHTML = html;
+}
+
+/* ===RENDER NAV COUNTS=== */
+function renderNavCounts() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    el.textContent = countByTab(el.dataset.count);
+  });
+}
+
+function renderAll() { renderGrid(); renderFavPanels(); }
+
+/* ===FAVORITES=== */
+function toggleFav(id) {
+  const i = state.favorites.indexOf(id);
+  i > -1 ? state.favorites.splice(i,1) : state.favorites.push(id);
+  localStorage.setItem('o-ngr-favs', JSON.stringify(state.favorites));
+  renderAll();
+}
+
+/* ===TAB SWITCH=== */
+function switchTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.mob-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  renderGrid();
+}
+
+/* ===MOBILE PANEL=== */
+function openMpanel() {
+  document.getElementById('mpanel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeMpanel() {
+  document.getElementById('mpanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+/* ===EVENTS=== */
+document.addEventListener('click', e => {
+  // fav button
+  const fb = e.target.closest('.fav-btn');
+  if (fb) { e.stopPropagation(); toggleFav(parseInt(fb.dataset.id)); return; }
+  // fav remove
+  const rm = e.target.closest('.fav-rm');
+  if (rm) { e.stopPropagation(); toggleFav(parseInt(rm.dataset.removeId)); return; }
+  // card open
+  const card = e.target.closest('.card');
+  if (card && !e.target.closest('.fav-btn')) window.open(card.dataset.url, '_blank');
+});
+
+document.querySelectorAll('.nav-btn').forEach(btn =>
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+document.querySelectorAll('.mob-tab').forEach(btn =>
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+let debTimer;
+document.getElementById('searchInput').addEventListener('input', e => {
+  state.query = e.target.value;
+  clearTimeout(debTimer);
+  debTimer = setTimeout(renderAll, 160);
+});
+document.getElementById('sortSel').addEventListener('change', e => {
+  state.sort = e.target.value; renderAll();
+});
+
+document.getElementById('favPanelBtn').addEventListener('click', openMpanel);
+document.getElementById('mpCloseBtn').addEventListener('click', closeMpanel);
+document.getElementById('overlay').addEventListener('click', closeMpanel);
+document.getElementById('logoBtn').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+/* Theme */
+const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+function applyTheme(isLight) {
+  document.body.classList.toggle('light', isLight);
+}
+
+function getOverride() {
+  return localStorage.getItem('o-ngr-theme'); // 'light' | 'dark' | null(システムに追従)
+}
+
+// 初期表示：手動上書きがあればそれを優先、なければシステム設定に従う
+applyTheme(getOverride() ? getOverride() === 'light' : !mql.matches);
+
+// システムのダーク/ライト設定が変わったらリアルタイムで反映(手動上書き中は除く)
+mql.addEventListener('change', e => {
+  if (!getOverride()) applyTheme(!e.matches);
+});
+
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const nowLight = !document.body.classList.contains('light');
+  applyTheme(nowLight);
+  localStorage.setItem('o-ngr-theme', nowLight ? 'light' : 'dark');
+});
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && e.target.tagName !== 'INPUT') { e.preventDefault(); document.getElementById('searchInput').focus(); }
+  if (e.key === 'Escape') closeMpanel();
+});
+
+/* Init */
+renderNavCounts();
+renderAll();
+</script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"d1d5394f0c3f4bfba52e8ef3151ab7fa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
