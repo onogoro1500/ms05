@@ -223,11 +223,13 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: var(--radius-sm);
   background: var(--bg-2);
   border: 1px solid transparent;
+  cursor: pointer;
   transition: border-color var(--trans), background var(--trans);
 }
-.fav-row:hover {
+.fav-row:hover, .fav-row:focus-visible {
   border-color: var(--red-border);
   background: var(--red-dim);
+  outline: none;
 }
 .fav-row-left {
   width: 4px;
@@ -255,9 +257,8 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: 6px;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background var(--trans);
 }
-.fav-row-link:hover { background: var(--red); color: #fff; }
+.fav-row:hover .fav-row-link { background: var(--red); color: #fff; }
 .fav-row-remove {
   width: 28px;
   height: 28px;
@@ -287,22 +288,25 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   transition: border-color var(--trans), background var(--trans), transform var(--trans), box-shadow var(--trans);
   position: relative;
   overflow: hidden;
 }
-.tool-card:hover {
+.tool-card:hover, .tool-card:focus-visible {
   border-color: var(--red-border);
   background: var(--bg-3);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  outline: none;
 }
 .tool-card-accent {
   height: 3px;
   background: var(--bg-3);
   transition: background var(--trans);
 }
-.tool-card:hover .tool-card-accent { background: var(--red); }
+.tool-card:hover .tool-card-accent,
+.tool-card:focus-visible .tool-card-accent { background: var(--red); }
 
 .tool-body {
   padding: 20px 20px 16px;
@@ -375,7 +379,8 @@ button { font-family: inherit; cursor: pointer; }
   transition: color var(--trans);
   text-align: right;
 }
-.tool-link:hover { color: var(--text); }
+.tool-card:hover .tool-link,
+.tool-card:focus-visible .tool-link { color: var(--text); }
 .tool-link::after { content: ' →'; }
 
 /* EMPTY */
@@ -465,7 +470,9 @@ button { font-family: inherit; cursor: pointer; }
   <!-- All tools grid -->
   <section class="tools-section">
     <p class="section-label" id="mainLabel">すべてのツール</p>
-    <div class="tools-grid" id="toolsGrid"></div>
+    <div class="tools-grid" id="toolsGrid">
+      <div class="empty"><p class="empty-text">読み込み中...</p></div>
+    </div>
   </section>
 
 </main>
@@ -473,72 +480,20 @@ button { font-family: inherit; cursor: pointer; }
 <script>
 /* =============================================
    TOOL DATA
-   ここを編集してツールを追加・変更してください
-   フィールド:
-     id     : 一意な数値ID (変更しない)
-     url    : リンク先パス
-     name   : ツール名
-     desc   : 説明文
-     tags   : タグ配列 (検索対象)
+   ツールデータは同ディレクトリの tools.xml から読み込みます。
+   構成例:
+     <tools>
+       <tool id="1">
+         <url>/tools/xxx.html</url>
+         <name>ツール名</name>
+         <desc>説明文</desc>
+         <tags><tag>タグ1</tag><tag>タグ2</tag></tags>
+       </tool>
+     </tools>
+   ツールの追加・変更は tools.xml を編集してください。
 ============================================= */
-const TOOLS = [
-  {
-    id: 1,
-    url: '/tools/mediaplayer.html',
-    name: 'メディアプレイヤ',
-    desc: 'メディアを再生、実行する程度の能力',
-    tags: ['ファイル', 'メディア', 'プレイヤー']
-  },
-  {
-    id: 2,
-    url: '/tools/coolreload.html',
-    name: 'かっこよくリロードするだけのページ',
-    desc: 'かっこよくリロードする程度の能力',
-    tags: ['リロード', 'かっこいい']
-  },
-  {
-    id: 3,
-    url: '/tools/camera.html',
-    name: 'カメラ',
-    desc: 'ただのカメラ',
-    tags: ['カメラ']
-  },
-  {
-    id: 4,
-    url: '/tools/timesrecrd.html',
-    name: '時計 & カレンダ',
-    desc: '時間を知らせる程度の能力',
-    tags: ['時計', 'カレンダ']
-  },
-  {
-    id: 5,
-    url: '/tools/memo.html',
-    name: 'ms0101 めも',
-    desc: 'テキストを記録し、HTMLとして実行する程度の能力',
-    tags: ['メモ', 'HTML']
-  },
-  {
-    id: 6,
-    url: '/tools/PercentEncodingConverter.html',
-    name: 'パーセントエンコードコンバータ',
-    desc: 'パーセントエンコーディングされたテキストをエンコード・デコードする程度の能力',
-    tags: ['エンコード', 'テキスト', 'URL']
-  },
-  {
-    id: 7,
-    url: '/tools/shader.html',
-    name: 'シェーダー',
-    desc: 'ノイズを可視化する程度の能力',
-    tags: ['シェーダー', 'GLSL', 'ビジュアル']
-  },
-  {
-    id: 8,
-    url: '/tools/proxy.html',
-    name: 'プロキシ',
-    desc: 'プロキシ通信する程度の能力',
-    tags: ['プロキシ', 'HTML', 'Web']
-  }
-];
+const TOOLS_XML_PATH = 'tools.xml';
+let TOOLS = [];
 
 /* STATE */
 let favorites = [];
@@ -590,6 +545,43 @@ function toggleFavorite(id) {
   render();
 }
 
+/* TOOL DATA LOADING (external XML) */
+function text(node, selector) {
+  const el = node.querySelector(selector);
+  return el ? el.textContent.trim() : '';
+}
+
+function parseToolsXML(xmlText) {
+  const xml = new DOMParser().parseFromString(xmlText, 'application/xml');
+  if (xml.querySelector('parsererror')) {
+    throw new Error('tools.xml の解析に失敗しました');
+  }
+  return Array.from(xml.querySelectorAll('tools > tool')).map(node => ({
+    id: parseInt(node.getAttribute('id'), 10),
+    url: text(node, 'url'),
+    name: text(node, 'name'),
+    desc: text(node, 'desc'),
+    tags: Array.from(node.querySelectorAll('tags > tag')).map(t => t.textContent.trim())
+  })).filter(t => !Number.isNaN(t.id) && t.url && t.name);
+}
+
+async function loadTools() {
+  try {
+    const res = await fetch(TOOLS_XML_PATH, { cache: 'no-store' });
+    if (!res.ok) throw new Error('tools.xml の取得に失敗しました (' + res.status + ')');
+    const xmlText = await res.text();
+    TOOLS = parseToolsXML(xmlText);
+  } catch (err) {
+    console.error(err);
+    document.getElementById('toolsGrid').innerHTML =
+      '<div class="empty"><p class="empty-text">ツールデータの読み込みに失敗しました</p></div>';
+    document.getElementById('mainLabel').textContent = 'すべてのツール';
+    document.getElementById('totalCount').textContent = '0';
+    return;
+  }
+  render();
+}
+
 /* FILTER */
 function getFiltered() {
   let list = TOOLS;
@@ -613,7 +605,7 @@ function renderFavSection() {
   const section = document.getElementById('favSection');
   const list = document.getElementById('favList');
 
-  // お気に入りタブ中 or 検索中 or お気に入りなし → 非表示
+  // お気に入りタブ中 or お気に入りなし → 非表示
   if (favItems.length === 0 || currentFilter === 'favorites') {
     section.classList.add('hidden');
     return;
@@ -621,10 +613,10 @@ function renderFavSection() {
   section.classList.remove('hidden');
 
   list.innerHTML = favItems.map(t => `
-    <div class="fav-row">
+    <div class="fav-row" data-url="${t.url}" tabindex="0" role="link" aria-label="${t.name}を開く">
       <span class="fav-row-left"></span>
       <span class="fav-row-name">${t.name}</span>
-      <a href="${t.url}" class="fav-row-link">開く</a>
+      <span class="fav-row-link">開く</span>
       <button class="fav-row-remove" data-id="${t.id}" title="お気に入りを外す">✕</button>
     </div>
   `).join('');
@@ -652,7 +644,7 @@ function renderToolsGrid() {
     const isFav = favorites.includes(t.id);
     const tags = t.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
     return `
-      <div class="tool-card">
+      <div class="tool-card" data-url="${t.url}" tabindex="0" role="link" aria-label="${t.name}を開く">
         <div class="tool-card-accent"></div>
         <div class="tool-body">
           <div class="tool-header">
@@ -661,7 +653,7 @@ function renderToolsGrid() {
           </div>
           <p class="tool-desc">${t.desc}</p>
           <div class="tool-tags">${tags}</div>
-          <a href="${t.url}" class="tool-link">開く</a>
+          <span class="tool-link">開く</span>
         </div>
       </div>
     `;
@@ -696,7 +688,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// イベント委任: お気に入りトグル & 削除
+// イベント委任: お気に入りトグル・削除・カード/行全体のクリックで開く
 document.addEventListener('click', e => {
   const favBtn = e.target.closest('.fav-toggle');
   if (favBtn) {
@@ -707,13 +699,41 @@ document.addEventListener('click', e => {
   const removeBtn = e.target.closest('.fav-row-remove');
   if (removeBtn) {
     toggleFavorite(parseInt(removeBtn.dataset.id));
+    return;
+  }
+  const card = e.target.closest('.tool-card');
+  if (card && card.dataset.url) {
+    window.location.href = card.dataset.url;
+    return;
+  }
+  const favRow = e.target.closest('.fav-row');
+  if (favRow && favRow.dataset.url) {
+    window.location.href = favRow.dataset.url;
+  }
+});
+
+// キーボード操作: フォーカスしたカード/行で Enter または Space を押すと開く
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  if (e.target.closest('.fav-toggle') || e.target.closest('.fav-row-remove')) return;
+
+  const card = e.target.closest('.tool-card');
+  if (card && card.dataset.url) {
+    e.preventDefault();
+    window.location.href = card.dataset.url;
+    return;
+  }
+  const favRow = e.target.closest('.fav-row');
+  if (favRow && favRow.dataset.url) {
+    e.preventDefault();
+    window.location.href = favRow.dataset.url;
   }
 });
 
 /* INIT */
 initTheme();
 loadFavorites();
-render();
+loadTools();
 </script>
 </body>
 </html>
