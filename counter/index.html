@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>訪問者カウンター 動作確認</title>
+<title>カウンター</title>
 <style>
   body {
     font-family: sans-serif;
@@ -52,29 +52,19 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const siteKey = "あなたのユーザー名_github_io_v2"; // 識別キー（新しいサイト名などに）
+    const siteKey = "あなたのユーザー名_github_io_v2";
     const counterUrl = `https://api.hana-counter.net/v1/counter/${siteKey}/hit`;
-
-    // 重要：画像を置いたフォルダのパスを正しく書く
-    // 例：このHTMLと同じ階層に counter_images フォルダを作った場合
     const imagePath = "./counter_images/";
-
     fetch(counterUrl)
       .then(response => response.json())
       .then(data => {
-        // カウントされた数字を取得（例: 125）
         const count = data.count;
-
-        // 数字を6桁（000125）に揃える
         const paddedCount = String(count).padStart(6, '0');
-
         const counterContainer = document.getElementById("custom-counter");
-        counterContainer.innerHTML = ""; // 以前の内容（Loading...など）を消す
-
-        // 数字の1文字ずつを、<img>タグに変換して並べる
+        counterContainer.innerHTML = "";
         for (let num of paddedCount) {
           const img = document.createElement("img");
-          img.src = `${imagePath}${num}.png`; // 例: ./counter_images/1.png
+          img.src = `${imagePath}${num}.png`;
           img.alt = num;
           img.className = "counter-digit-img";
           counterContainer.appendChild(img);
