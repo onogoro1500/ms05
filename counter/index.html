@@ -52,42 +52,47 @@
   
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // 💡 「あなたのユーザー名〜」の部分を半角英数字に変更しています
-    const siteKey = "my_site_counter_v2"; 
-    const counterUrl = `https://api.hana-counter.net/v1/counter/${siteKey}/hit`;
+    // 💡 あなたのサイト専用の識別キー（半角英数字で好きな文字に変えてもOKです）
+    const siteKey = "my_unique_github_io_counter_2026"; 
     
-    // 💡 前回の「おすすめの解決策」通り、先頭の「/couter/」を削った相対パスにしています
+    // 現在も無料で使える信頼性の高いカウントAPIを利用します
+    const counterUrl = `https://api.countapi.xyz/hit/default/${siteKey}`;
+    
+    // 画像フォルダへのパス（index.htmlと同じ場所にある counter_images フォルダ）
     const imagePath = "counter_images/"; 
-
     const counterContainer = document.getElementById("custom-counter");
 
     fetch(counterUrl)
       .then(response => {
         if (!response.ok) {
-          throw new Error(`APIエラー (Status: ${response.status})`);
+          throw new Error('ネットワークエラーが発生しました');
         }
         return response.json();
       })
       .then(data => {
-        const count = data.count;
+        // APIから現在のアクセス数を取得（このAPIでは data.value に数字が入ります）
+        const count = data.value;
+        
+        // 6桁に揃える（例: 000001）
         const paddedCount = String(count).padStart(6, '0');
         counterContainer.innerHTML = "";
 
+        // 1文字ずつ画像に置き換えていく、あなたが作ったお気に入りの仕組みです！
         for (let num of paddedCount) {
           const img = document.createElement("img");
           img.src = `${imagePath}${num}.png`;
           img.alt = num;
           img.className = "counter-digit-img";
           
-          // 画像が読み込めなかったときの保険（文字で数字を表示）
+          // 万が一、画像が読み込めなかった時の保険（数字を文字で表示）
           img.onerror = function() {
             this.style.display = 'none';
             const span = document.createElement("span");
             span.innerText = num;
             span.style.fontSize = "24px";
             span.style.margin = "0 2px";
+            span.style.fontWeight = "bold";
             counterContainer.appendChild(span);
-            console.error(`画像の読み込みに失敗しました: ${this.src}`);
           };
 
           counterContainer.appendChild(img);
@@ -95,7 +100,7 @@
       })
       .catch(error => {
         console.error("Counter Error:", error);
-        counterContainer.innerText = `エラー発生: ${error.message}`;
+        counterContainer.innerText = "Error (通信失敗)";
       });
   });
 </script>
