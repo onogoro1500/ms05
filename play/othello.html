@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>オセロ</title>
+<style>
+:root{--board-size:480px;--cell-size:calc(var(--board-size)/8);--bg:#173f2f;--grid:rgba(255,255,255,0.07);--valid:rgba(255,255,255,0.18)}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans JP","Yu Gothic UI","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:linear-gradient(180deg,#182a24 0%,#0c1e19 100%);color:#e9f7f2;display:flex;align-items:flex-start;justify-content:center;min-height:100vh;padding:24px;box-sizing:border-box}
+.container{width:920px;max-width:calc(100% - 48px);display:flex;gap:24px;align-items:flex-start}
+.board-wrap{background:linear-gradient(180deg,#0b3d2b 0%,#063423 100%);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+.board{width:var(--board-size);height:var(--board-size);position:relative;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border-radius:6px;box-sizing:border-box;background:linear-gradient(transparent 0 0),repeating-linear-gradient(90deg,var(--grid) 0 1px,transparent 1px 100%),repeating-linear-gradient(0deg,var(--grid) 0 1px,transparent 1px 100%);overflow:hidden}
+.cell{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;user-select:none;cursor:pointer}
+.cell::after{content:"";position:absolute;inset:0;border-radius:4px}
+.cell.valid::after{background:var(--valid)}
+.disc{width:70%;height:70%;border-radius:50%;display:block;transition:transform 180ms linear,background 180ms linear;transform:scale(1);box-shadow:0 3px 8px rgba(0,0,0,0.45) inset}
+.disc.black{background:radial-gradient(circle at 35% 30%,#111 0%,#111 36%,#000 70%);box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+.disc.white{background:radial-gradient(circle at 35% 30%,#fff 0%,#f0f0f0 36%,#dcdcdc 70%);box-shadow:0 4px 12px rgba(0,0,0,0.25)}
+.controls{width:360px;display:flex;flex-direction:column;gap:12px}
+.card{background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;min-height:64px}
+h3{margin:0 0 8px 0;font-size:16px;color:#dff6ee}
+.status{font-size:14px;color:#cdeedd;margin-bottom:8px}
+.score{display:flex;gap:12px;align-items:center;font-weight:600}
+.chip{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,0.18);color:#fff;font-size:14px}
+.small{font-size:13px;color:#cfeadd}
+.controls label{display:block;font-size:13px;color:#bfe8d1;margin-bottom:8px}
+.row{display:flex;gap:8px;align-items:center}
+.btn{background:linear-gradient(180deg,#2c9b78,#197d5f);color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+input[type="range"]{width:100%}
+.hint{font-size:13px;color:#bfe8d1;opacity:0.9}
+.legend{display:flex;gap:8px;align-items:center;margin-top:6px}
+.dot{width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.25)}
+footer.note{font-size:12px;color:#91caaa;margin-top:8px}
+.move-list{max-height:140px;overflow:auto;padding-right:6px;font-size:13px;color:#cfeedd}
+.overlay-turn{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:700;font-size:22px;color:rgba(255,255,255,0.06)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="board-wrap">
+    <div id="board" class="board" aria-label="オセロボード"></div>
+    <div class="overlay-turn" id="overlay" style="display:none;"></div>
+  </div>
+  <div class="controls">
+    <div class="card">
+      <h3>現在の状況</h3>
+      <div class="status" id="turnText">黒（あなた）の手番です</div>
+      <div class="score"><div class="chip">● 黒: <span id="blackScore">2</span></div><div class="chip">○ 白(ボット): <span id="whiteScore">2</span></div></div>
+      <div class="small" id="movesRemaining" style="margin-top:8px;"></div>
+    </div>
+    <div class="card">
+      <h3>設定</h3>
+      <label>難易度（深さ）: <span id="depthLabel">3</span></label>
+      <input id="depth" type="range" min="1" max="6" value="3"/>
+      <div class="hint">高いほど強くなります（処理コスト増）</div>
+      <div style="margin-top:10px;"><button id="restart" class="btn">再スタート</button><button id="swap" class="btn ghost" title="先手/後手切替">先手を切替</button></div>
+    </div>
+    <div class="card">
+      <h3>操作メモ</h3>
+      <div class="small">- クリックで石を置く。合法手のみ受け付けます。<br>- 合法手は薄く表示されます。<br>- パス・終了判定は自動で処理します。</div>
+      <div class="legend" style="margin-top:10px;">
+        <div style="display:flex;flex-direction:column;gap:6px;"><div class="dot" style="background:#111;border:1px solid rgba(255,255,255,0.06)"></div><div class="small">黒（あなた）</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px;"><div class="dot" style="background:#fff;border:1px solid rgba(0,0,0,0.06)"></div><div class="small">白（ボット）</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.18)"></div><div class="small">合法手</div></div>
+      </div>
+    </div>
+    <div class="card"><h3>直近の動き</h3><div class="move-list" id="moveList"></div></div>
+    <div class="card"><h3>情報</h3><div class="small">このゲームはクライアント側で動作します。ソースは一つの HTML ファイルにまとまっています。</div></div>
+  </div>
+</div>
+
+<script>
+const N=8,DIRS=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]],WEIGHTS=[[120,-20,20,5,5,20,-20,120],[-20,-40,-5,-5,-5,-5,-40,-20],[20,-5,15,3,3,15,-5,20],[5,-5,3,3,3,3,-5,5],[5,-5,3,3,3,3,-5,5],[20,-5,15,3,3,15,-5,20],[-20,-40,-5,-5,-5,-5,-40,-20],[120,-20,20,5,5,20,-20,120]];
+let board=[],currentPlayer=1,humanPlaysBlack=true,moveHistory=[];
+const boardEl=document.getElementById('board'),turnText=document.getElementById('turnText'),blackScoreEl=document.getElementById('blackScore'),whiteScoreEl=document.getElementById('whiteScore'),moveListEl=document.getElementById('moveList'),overlay=document.getElementById('overlay'),depthRange=document.getElementById('depth'),depthLabel=document.getElementById('depthLabel'),restartBtn=document.getElementById('restart'),swapBtn=document.getElementById('swap'),movesRemainingEl=document.getElementById('movesRemaining');
+
+function initBoard(){board=Array.from({length:N},()=>Array.from({length:N},()=>0));board[3][3]=-1;board[3][4]=1;board[4][3]=1;board[4][4]=-1;currentPlayer=1;moveHistory=[];render()}
+function render(){
+  boardEl.innerHTML='';const valid=getValidMoves(board,currentPlayer);
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const cell=document.createElement('div');cell.className='cell';cell.dataset.r=r;cell.dataset.c=c;
+    if(valid.some(m=>m.r===r&&m.c===c))cell.classList.add('valid');
+    if(board[r][c]!==0){const disc=document.createElement('span');disc.className='disc '+(board[r][c]===1?'black':'white');cell.appendChild(disc)}
+    cell.addEventListener('click',onCellClick);boardEl.appendChild(cell);
+  }
+  updateScores();updateTurnText();updateMoveList();updateMovesRemaining();
+}
+function updateMoveList(){moveListEl.innerHTML='';if(moveHistory.length===0){moveListEl.textContent='(まだ手がありません)';return}moveHistory.slice().reverse().forEach(m=>{const d=document.createElement('div');d.textContent=`${m.player===1?'●':'○'} ${m.r+1}-${m.c+1} ${m.info||''}`;moveListEl.appendChild(d)})}
+function inBounds(r,c){return r>=0&&r<N&&c>=0&&c<N}
+function getValidMoves(bd,player){const moves=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++){if(bd[r][c]!==0)continue;if(canFlip(bd,r,c,player))moves.push({r,c})}return moves}
+function canFlip(bd,r,c,player){for(const [dr,dc]of DIRS){let rr=r+dr,cc=c+dc,foundOpp=false;while(inBounds(rr,cc)&&bd[rr][cc]===-player){foundOpp=true;rr+=dr;cc+=dc}if(foundOpp&&inBounds(rr,cc)&&bd[rr][cc]===player)return true}return false}
+function applyMove(bd,r,c,player){const flips=[];bd[r][c]=player;for(const [dr,dc]of DIRS){let rr=r+dr,cc=c+dc;const chain=[];while(inBounds(rr,cc)&&bd[rr][cc]===-player){chain.push([rr,cc]);rr+=dr;cc+=dc}if(chain.length>0&&inBounds(rr,cc)&&bd[rr][cc]===player){for(const [fr,fc]of chain){bd[fr][fc]=player;flips.push([fr,fc])}}}return flips}
+function cloneBoard(bd){return bd.map(row=>row.slice())}
+function countScores(bd){let b=0,w=0;for(let r=0;r<N;r++)for(let c=0;c<N;c++){if(bd[r][c]===1)b++;else if(bd[r][c]===-1)w++}return {black:b,white:w}}
+function onCellClick(e){
+  const r=+e.currentTarget.dataset.r,c=+e.currentTarget.dataset.c;
+  const humanPlayer=humanPlaysBlack?1:-1;
+  if(currentPlayer!==humanPlayer) return;
+  const valid=getValidMoves(board,currentPlayer).some(m=>m.r===r&&m.c===c);
+  if(!valid) return;
+  const flips=applyMove(board,r,c,currentPlayer);
+  moveHistory.push({player:currentPlayer,r,c,info:`flipped ${flips.length}`});
+  switchTurnAndProceed();
+}
+function switchTurnAndProceed(){
+  currentPlayer=-currentPlayer;render();
+  const moves=getValidMoves(board,currentPlayer);
+  const humanPlayer=humanPlaysBlack?1:-1;
+  if(moves.length>0){
+    if(currentPlayer!==humanPlayer){overlay.style.display='flex';overlay.textContent='ボットが思考中...';setTimeout(()=>{botPlay();overlay.style.display='none'},60)}
+  }else{
+    if(getValidMoves(board,-currentPlayer).length>0){
+      moveHistory.push({player:currentPlayer,r:-1,c:-1,info:'pass'});currentPlayer=-currentPlayer;render();
+      if(currentPlayer!==humanPlayer){overlay.style.display='flex';overlay.textContent='ボットが思考中...';setTimeout(()=>{botPlay();overlay.style.display='none'},60)}
+    }else{
+      const s=countScores(board);let resultText=`ゲーム終了 — ● ${s.black} : ○ ${s.white} — `;resultText += s.black>s.white?'黒（あなた）の勝ち':s.white>s.black?'白（ボット）の勝ち':'引き分け';turnText.textContent=resultText;
+    }
+  }
+  render();
+}
+function updateScores(){const s=countScores(board);blackScoreEl.textContent=s.black;whiteScoreEl.textContent=s.white}
+function updateTurnText(){
+  const humanPlayer=humanPlaysBlack?1:-1;
+  if(getValidMoves(board,1).length===0&&getValidMoves(board,-1).length===0) return;
+  turnText.textContent = currentPlayer===humanPlayer?'黒（あなた）の手番です':'白（ボット）の手番です';
+}
+
+/* AI */
+function evaluateBoard(bd){
+  let score=0,myCount=0,oppCount=0;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(bd[r][c]===-1){score+=WEIGHTS[r][c];myCount++}else if(bd[r][c]===1){score-=WEIGHTS[r][c];oppCount++}
+  }
+  const myMoves=getValidMoves(bd,-1).length,oppMoves=getValidMoves(bd,1).length;
+  if(myMoves+oppMoves>0) score += 10*(myMoves-oppMoves);
+  score += (myCount-oppCount)*2;
+  return score;
+}
+function botPlay(){
+  const depth=parseInt(depthRange.value,10);
+  const best=findBestMove(board,-1,depth);
+  if(!best||best.move==null){moveHistory.push({player:-1,r:-1,c:-1,info:'bot pass'});currentPlayer=1;render();return}
+  const {r,c}=best.move;const flips=applyMove(board,r,c,-1);moveHistory.push({player:-1,r,c,info:`flipped ${flips.length}`});currentPlayer=1;render();
+}
+function findBestMove(bd,player,depthLimit){
+  const maximizing=(player===-1);
+  let best={value:maximizing?-Infinity:Infinity,move:null};
+  const moves=getValidMoves(bd,player);
+  if(moves.length===0) return {value:evaluateBoard(bd),move:null};
+  moves.sort((a,b)=>((isCorner(b.r,b.c)?100:0)-(isCorner(a.r,a.c)?100:0)));
+  for(const mv of moves){
+    const copy=cloneBoard(bd);applyMove(copy,mv.r,mv.c,player);
+    const val=alphabeta(copy,-player,depthLimit-1,-Infinity,Infinity);
+    if(maximizing){if(val>best.value){best.value=val;best.move=mv}}else{if(val<best.value){best.value=val;best.move=mv}}
+  }
+  return best;
+}
+function alphabeta(bd,player,depth,alpha,beta){
+  const moves=getValidMoves(bd,player);
+  if(depth===0||(moves.length===0&&getValidMoves(bd,-player).length===0)) return evaluateBoard(bd);
+  if(moves.length===0) return alphabeta(bd,-player,depth,alpha,beta);
+  if(player===-1){
+    let value=-Infinity;
+    for(const mv of moves){const copy=cloneBoard(bd);applyMove(copy,mv.r,mv.c,player);const v=alphabeta(copy,-player,depth-1,alpha,beta);value=Math.max(value,v);alpha=Math.max(alpha,value);if(alpha>=beta)break}
+    return value;
+  }else{
+    let value=Infinity;
+    for(const mv of moves){const copy=cloneBoard(bd);applyMove(copy,mv.r,mv.c,player);const v=alphabeta(copy,-player,depth-1,alpha,beta);value=Math.min(value,v);beta=Math.min(beta,value);if(beta<=alpha)break}
+    return value;
+  }
+}
+function isCorner(r,c){return (r===0||r===7)&&(c===0||c===7)}
+
+depthRange.addEventListener('input',e=>{depthLabel.textContent=e.target.value});
+restartBtn.addEventListener('click',initBoard);
+swapBtn.addEventListener('click',()=>{
+  humanPlaysBlack=!humanPlaysBlack;initBoard();
+  if(!humanPlaysBlack){currentPlayer=-1;overlay.style.display='flex';overlay.textContent='ボットが思考中...';setTimeout(()=>{botPlay();overlay.style.display='none'},60)}
+});
+function updateMovesRemaining(){const empty=board.flat().filter(v=>v===0).length;movesRemainingEl.textContent=`残り空き: ${empty} マス`}
+
+initBoard();
+if(!humanPlaysBlack){currentPlayer=-1;overlay.style.display='flex';overlay.textContent='ボットが思考中...';setTimeout(()=>{botPlay();overlay.style.display='none'},60)}
+</script>
+</body>
+</html>
