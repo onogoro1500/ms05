@@ -114,8 +114,30 @@
         "height": "sm",
         "action": {
           "type": "uri",
+          "label": "GAMES",
+          "uri": "https://o-ngr.github.io/page/gamelist.html"
+        },
+        "color": "#111111"
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
           "label": "TOOLS",
-          "uri": "https://o-ngr.github.io/"
+          "uri": "https://o-ngr.github.io/page/toollist.html"
+        },
+        "color": "#111111"
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "ARTICLES",
+          "uri": "https://o-ngr.github.io/page/articlelist.html"
         },
         "color": "#111111"
       },
